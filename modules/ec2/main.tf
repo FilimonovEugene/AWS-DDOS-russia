@@ -14,6 +14,7 @@ resource "aws_instance" "fighter" {
     timeout     = "10m"
   }
 
+
   provisioner "remote-exec" {
     script = "${path.module}/provisioning.sh"
   }
