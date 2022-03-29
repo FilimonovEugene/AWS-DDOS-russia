@@ -14,15 +14,7 @@ resource "aws_instance" "fighter" {
     timeout     = "10m"
   }
 
-  provisioner "file" {
-    source      = "${path.module}/provisioning.sh"
-    destination = "/tmp/provisioning.sh"
-  }
-
   provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/provisioning.sh",
-      "/tmp/provisioning.sh",
-    ]
+    script = "${path.module}/provisioning.sh"
   }
 }
