@@ -14,4 +14,4 @@ This repo automatically creates a set of a free-tier EC2 instances and start a D
 5. If you need to re-create instances execute "terraform destroy" and then "terraform apply".
 
 # Troubleshooting
-- Syntax error: end of file unexpected (expecting "do"): Git on Windows may replace end of line symbol LF with CRLF which cause script execution error. To fix it execute in terminal "git config core.autocrlf false" and then clone repo from scratch. 
+- Syntax error: end of file unexpected (expecting "do"): Git on Windows may replace end of line symbol LF with CRLF which cause script execution error. To fix it open file /modules/ec2/provisioning.sh in Notepad++, on the bottom panel on to the Right right click on the area Windows (CR LF) and select UNIX (LF) this should replace all CRLFs with LFs. Save the file and try to run "terraform apply" again.
