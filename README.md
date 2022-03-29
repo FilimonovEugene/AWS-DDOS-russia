@@ -12,3 +12,6 @@ This repo automatically creates a set of a free-tier EC2 instances and start a D
 3. Open terminal, navigate to the repo folder;
 4. Execute these commands: "terraform init", "terraform apply";
 5. If you need to re-create instances execute "terraform destroy" and then "terraform apply".
+
+# Troubleshooting
+- Syntax error: end of file unexpected (expecting "do"): Git on Windows may replace end of line symbol LF with CRLF which cause script execution error. To fix it execute in terminal "git config core.autocrlf false" and then clone repo from scratch. 
