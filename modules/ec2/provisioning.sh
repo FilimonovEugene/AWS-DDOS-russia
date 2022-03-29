@@ -1,3 +1,8 @@
+while [ ! -f /var/lib/cloud/instance/boot-finished ]; do
+  echo -e "\033[1;36mWaiting for cloud-init..."
+  sleep 1
+done
+
 sudo apt-get update
 sudo apt -y install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
