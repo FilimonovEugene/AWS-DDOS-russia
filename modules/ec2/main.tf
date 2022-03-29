@@ -1,47 +1,28 @@
-locals {
-  ssh_key_name = "ssh-key"
-}
+resource "aws_instance" "fighter" {
+  ami                         = var.ami_id
+  monitoring                  = true
+  instance_type               = var.instance_type
+  key_name                    = var.ssh_key_name
+  associate_public_ip_address = true
+  vpc_security_group_ids      = ["${var.security_group_id}"]
 
-resource "tls_private_key" "pk" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "aws_key_pair" "kp" {
-  key_name   = local.ssh_key_name
-  public_key = "${tls_private_key.pk.public_key_openssh}"
-}
-
-resource "aws_security_group" "grant_ssh" {
-  name        = "grant_ssh"
-  description = "grant_ssh"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    host        = self.public_ip
+    private_key = "${var.private_key_pem}"
+    timeout     = "10m"
   }
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+  provisioner "file" {
+    source      = "${path.module}/provisioning.sh"
+    destination = "/tmp/provisioning.sh"
   }
-}
 
-module "ec2" {
-  source            = "./modules/ec2"
-  count             = var.instance_count
-  instance_type     = var.instance_type
-  ami_id            = data.aws_ami.ubuntu.id
-  private_key_pem   = tls_private_key.pk.private_key_pem
-  ssh_key_name      = aws_key_pair.kp.key_name
-  security_group_id = aws_security_group.grant_ssh.id
-}
-
-resource "local_file" "private_key" {
-    content  = tls_private_key.pk.private_key_pem
-    filename = "${local.ssh_key_name}.pem"
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/provisioning.sh",
+      "/tmp/provisioning.sh",
+    ]
+  }
 }
