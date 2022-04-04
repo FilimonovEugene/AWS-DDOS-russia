@@ -1,4 +1,4 @@
-# AWS DDOS russian infrastructure
+# AWS charity
 
 This repo automatically creates a set of a free-tier EC2 instances and start a DDOS attack using a list of target resources provided by Ukrainian IT army
 
